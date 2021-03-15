@@ -1,9 +1,13 @@
 - JavaScript
   - [值得看的文章](article.md)
-  - [闭包](closure.md)
+  - [浏览器相关面试题](browser.md)
   - [原型](prototype.md)
+  - [http相关的面试题](http.md)
+  - [js相关的面试题](jsInterview.md)
 
 - CSS
   - [布局](layout.md)
 - Vue
-  - [vue相关的面试题](test1.md)
+  - [vue相关的面试题](vewInterview.md)
+  - [项目优化相关的bug](项目优化.md)
+  - [webpack相关的面试题](webpack.md)

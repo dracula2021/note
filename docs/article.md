@@ -2,3 +2,4 @@
 [浏览器灵魂拷问](https://juejin.cn/post/6844904021308735502#heading-22)
 [webpack相关的知识点](https://juejin.cn/post/6844904114883657742)
 [原生js的灵魂拷问](https://juejin.cn/post/6844903974378668039#heading-17)
+[vue2.x知识汇总](https://juejin.cn/post/6936061897892429855)

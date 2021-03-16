@@ -40,8 +40,10 @@
       options: { presets: [ [ 'es2015', { modules: false } ] ] }
 
    ```
+   + side effects 是指那些当import的时候会执行一些动作，但不一定会有任何export,比如polyfill
   1. 使用：webpack默认配置。在.babelrc里设置modules:false即可，要求必须是es6的语法，cjs的方法不支持。
   2. 原理
-     + 在编译阶段，tree-shaking知道哪些代码没有用到之后，会将其注释标记，然后再uglify阶段将其删除掉。
+     + ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这就是tree-shaking的基础
+     + 在编译阶段，,tree-shaking知道哪些代码没有用到之后，会将其注释标记，然后再uglify阶段将其删除掉。
 + loader的作用，对模块的源代码进行转换，将不同的语言转化为js，或者将内联图片转换为dataurl。
 + plugin的作用 解决loader无法实现的其他事。

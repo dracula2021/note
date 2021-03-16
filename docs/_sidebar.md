@@ -6,7 +6,7 @@
   - [js相关的面试题](jsInterview.md)
 
 - CSS
-  - [布局](layout.md)
+  - [css相关的知识点](css.md)
 - Vue
   - [vue相关的面试题](vewInterview.md)
   - [项目优化相关的bug](项目优化.md)

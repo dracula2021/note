@@ -4,19 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .main{
+      display: flex;
+      height: 300px;
+      border: 1px solid #ff0;
+    }
+    .box{
+      width: 100px;
+      height: 100px;
+      margin: auto;
+      border: 1px solid #ff0;
+    }
+  </style>
 </head>
 <body>
-  <script>
-   var a = 20;
-    var obj = {
-      a: 10,
-      c: this.a + 20,
-      fn: function () {
-        return this.a;
-      }
-    }
-    console.log(obj.c);
-    console.log(obj.fn());
-  </script>
+  <div class="main">
+    <div class="box"></div>
+  </div>
 </body>
 </html>

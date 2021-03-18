@@ -23,6 +23,35 @@
 <br><br>
 
 #### 3.数据类型转换的图
+   1. Number()方法的强制转换规则
+      + 如果是布尔值，true和false分别转换为1和0
+      + 如果是数字，返回自身
+      + 如果是null 返回0
+      + 如果是undefined 返回NaN
+      + 如果是字符串，遵循以下规则，只包含数字，则将其转换为十进制，如果包含有效的浮点数格式，将其转换为浮点数值，如果是空字符串，将其转换为0，如果不是以上格式的字符串，返回NaN
+      + 如果是symbol， 抛出错误
+      + 如果是对象，并且部署了[symbol.toPrimitive]，那么调用此方法，都则调用对象的valueOf方法，如果转换的结果是NaN，则调用对象的toString方法，再次依照前面的顺序转换返回对应的值。
+   2. boolean方法的强制类型转换规则
+      + 这个方法的规则是：除了undefined,null,false,'',0,NaN转换为false其他的都是true
+   + 隐式类型转换
+      + 凡是通过逻辑运算，位运算，关系运算，相等运算或者条件的操作，都会出现隐式类型转换。
+      + '=='的隐式类型转换规则
+         1. 如果类型相同，无需进行类型转换
+         2. 如果其中一个操作值是null或者undefined,那么另外一个操作符必须是null或者undefined才会返回true，否则返回false
+         3. 如果其中一个是Symbol类型，那么返回false
+         4. 两个操作值为string或number类型，会转换为number
+         5. 如果其中一个操作值是boolean，那么转换成number
+         6. 如果一个是object，且两外一方式string,number,symbol。就会把object转换为基础类型再进行判断
+      + '+'的隐式类型转换
+         1. 当'+'号两边都是数字时，进行加法运算，如果两边都是字符串，则直接拼接。
+         2. 如果其中一个是字符串，另一个是undefined,null,或者boolean则调用toString方法进行字符串的拼接。
+         3. 如果其中一个是数字，另外一个是undefined,null,boolean则转换为数字在进行加法
+         4. 如果一个是字符串，一个是数字，则按照字符串拼接
+      + object的转换规则
+         1. 如果有toprimitive方法，优先调用再返回
+         2. 调用valueOf，如果转换为基本类型则返回
+         3. 调用toString,如果转换为基本类型则返回
+         4. 如果都没有返回基本类型，会报错。
 ![](media/data.png);
 <br/>
 
@@ -172,6 +201,7 @@
       + 很多现代浏览器可以使用
       + 具有cjs的简介语法，同时有amd的异步
       + 得益于es6的静态模块结构，可以进行tree-shaking
+-------
 #### 14.前端基础进阶学习笔记
    1. 内存空间详细图解
       + 在学习内存空间之前，我们需要对三种数据结构有一个直观的认知。他们分别是堆(heap)，栈(stack)与队列(queue)
@@ -225,5 +255,37 @@
    5. 闭包
       + 闭包是一种特殊的对象。它由两部分组成。执行上下文(代号A)，以及在该执行上下文中创建的函数（代号B）。当B执行时，如果访问了A中变量对象中的值，那么闭包就会产生。
       + 
+#### try...catch
+   1. try...catch同步工作，如果在计划的代码发生异常，try...catch不会捕获到异常。为了捕获到计划的（scheduled）函数中的异常，那么 try..catch 必须在这个函数内
+   ```
+      setTimeout(function() {
+         try {
+            noSuchVariable; // try..catch 处理 error 了！
+         } catch {
+            alert( "error is caught here!" );
+         }
+         }, 1000);
+   ```
+#### 属相标识和属性描述符
+   1. writable 
+      + 如果为true 则值可以被修改，否则他只是可读的
+      + 如果为false,只读，除非他们应用自己的defineProperty来覆盖我们的属性描述
+   2. enumerable 
+      + false 不会出现在for...in 循环中，也会被Object.keys排除
+   3. configurable
+      + 不可配置的属性不能被删除
+      + 属性不可配置是一条单行道，我们无法使用defineProperty把它改回去
+         1. 不能修改configurable标志
+         2. 不能修改enumerable标志
+         3. 不能将writable:false修改为true
+         4. 不能修改访问者属性的set.get
+         + false的作用是防止更改和删除属性标志，但是允许我们修改值
+         + Object.preventExtensions(obj)
+         禁止向对象添加新属性。
+         + Object.seal(obj)
+         禁止添加/删除属性。为所有现有的属性设置 configurable: false。
+         + Object.freeze(obj)
+         禁止添加/删除/更改属性。为所有现有的属性设置 configurable: false, writable: false。
+
 
 

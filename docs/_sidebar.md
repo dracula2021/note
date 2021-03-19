@@ -1,13 +1,15 @@
 - JavaScript
-  - [值得看的文章](article.md)
-  - [浏览器相关面试题](browser.md)
-  - [原型](prototype.md)
-  - [http相关的面试题](http.md)
-  - [js相关的面试题](jsInterview.md)
-
+  - [原型](frontEnd/prototype.md)
+  - [http相关的面试题](frontEnd/http.md)
+  - [js相关的面试题](frontEnd/jsInterview.md)
 - CSS
-  - [布局](layout.md)
+  - [css相关的知识点](frontEnd/css.md)
 - Vue
-  - [vue相关的面试题](vewInterview.md)
-  - [项目优化相关的bug](项目优化.md)
-  - [webpack相关的面试题](webpack.md)
+  - [vue相关的面试题](frontEnd/vueInterview.md)
+  - [项目优化相关的bug](frontEnd/项目优化.md)
+  - [webpack相关的面试题](frontEnd/webpack.md)
+- 前端综合
+  - [值得看的文章](frontEnd/article.md)
+  - [git相关的面试题](frontEnd/git.md)
+  - [echarts相关的面试题](frontEnd/echarts.md)
+  - [浏览器相关面试题](frontEnd/browser.md)

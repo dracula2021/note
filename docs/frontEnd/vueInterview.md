@@ -86,5 +86,76 @@
       2. proxy在vm上定义与data数据字段同名的访问器属性，并将这些属性值代理到vm_.data
       3. observe函数：返回一个Observer实例。
       4. Observer对象根据数据类型执行相应的响应化操作。对于对象的话，调用defineReactive，对于数组类型的值，继续调用observe处理每一项。
-      5. defineReactive里面定义对象属性的getter/setter getter负责添加依赖，setter负责通知更新。                
+      5. defineReactive里面定义对象属性的getter/setter getter负责添加依赖，setter负责通知更新。  
+   + $set的实现
+      1. 先判断是否是未定义或者是primitive
+      2. 判断target是否是数组，如果是数组，直接调用splice
+      3. 如果是对象
+         + 如果已经有值，直接修改
+         + 如果target不是响应式的，直接赋值
+         + 否则就把value当作响应式修改
+      ```
+        function set (target: Array<any> | Object, key: any, val: any): any {
+            if (process.env.NODE_ENV !== 'production' &&
+            (isUndef(target) || isPrimitive(target))
+            ) {
+            warn(`Cannot set reactive property on undefined, null, or primitive value: ${(target: any)}`)
+            }
+            if (Array.isArray(target) && isValidArrayIndex(key)) {
+            target.length = Math.max(target.length, key)
+            target.splice(key, 1, val)
+            return val
+            }
+            if (key in target && !(key in Object.prototype)) {
+            target[key] = val
+            return val
+            }
+            const ob = (target: any).__ob__
+            if (target._isVue || (ob && ob.vmCount)) {
+            process.env.NODE_ENV !== 'production' && warn(
+               'Avoid adding reactive properties to a Vue instance or its root $data ' +
+               'at runtime - declare it upfront in the data option.'
+            )
+            return val
+            }
+            if (!ob) {
+            target[key] = val
+            return val
+            }
+            defineReactive(ob.value, key, val)
+            ob.dep.notify()
+            return val
+            }
+      ```
+   + $delete也是类似的
+      1. 如果是undefined或者primitive直接警告
+      2. 如果是数组，调用splice删除
+      3. 删除对象属性
+      4. 如果是响应式的，会通过dep发送通知。
+   + Dep: 负责一组watcher,包括watcherhi里的增删及通知更新。
+   + Watcher: 通过对被观测目标的求值，触发数据属性的get拦截器从而收集依赖
+   + 每个组件都会有对应的watcher,数值变化会触发其update函数导致重新渲染
+   + 数组的响应式：
+      + 数组数据辩护采取的策略是拦截push poop splice等方法执行dep通知
+      + 为数组原型的7个可以改变内容的方法定义拦截器
+      + 如果是push后者unshift增加了数组的内容，会调用observeArray把新增的值变成响应式的。
+      + getter的时候，如果value是数组，会调用dependArray方法，把数组中的所有项添加依赖，将来数组里面的值就可以通过_ob__.dep发送通知。
+   + Vue异步更新队列
+      + vue在更新Dom时是异步执行的。只要侦听到数据变化，vue将开启一个队列，并缓存在一个事件循环中发生的所有数据变更。如果同一个watcher被多次出发，只会被推入到队列中一次。这样避免不必要的计算和dom操作。并在下一次事件循环中，刷新队列并执行实际的工作。
+   + nextTick的实现
+      + 同一次事件循环内会将microTask队列中的所有任务全部执行完毕，且要先于macroTask，另外macroTask中两个不同的任务之间可能穿插着UI的重新渲染，nextTick的一部行为利用微任务队列，promise或者mutationObserver交互，实在不支持，再使用setImmmediate或者是setTimeout
+   + 虚拟Dom
+      + 虚拟Dom是对Dom的js抽象标识，他们是js对象，能够描述Dom结构和关系。
+      + js操作Dom的代价：用我们传统的开发模式，原生js或者jq操作Dom时，浏览器会从构建Dom树开始从头到尾执行一遍流程。如果我们一次操作中，需要更新10个Dom节点，浏览器会执行10遍，计算dom节点的坐标值等都是白白的性能浪费。频繁操作会出现页面卡顿，影响用户体验。
+      + 虚拟dom不会立即操作dom,而是将这10次更新的diff内容保存到本地一个js对象中，最终将这个js对象一次性attach到Dom树上，避免大量无所谓的计算量。
+      + 接上源码，_render里面调用render函数，创建了vnode，vnode映射到真实Dom需要经历创建diff patch等过程。vnode是通过vm.createElement函数创建的。
+      + _update负责更新Dom核心就是调用__patch__
+
+      + 我们来详细讲解一下patch算法
+         + patch将新老vnode节点进行比对（diff算法）,然后根据比较结果进行最小量dom操作，而不是将整个视图根据新的vnode重绘。
+         + diff算法
+            1. 通过同层的树节点进行比较
+
+      
+
     

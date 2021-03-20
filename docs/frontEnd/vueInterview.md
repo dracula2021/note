@@ -63,6 +63,28 @@
       2. optimize 标记一些静态节点，做性能优化
       3. generate 把第一部分生产的AST转化为渲染函数
    3. 更新，数据修改触发setter，然后监听器会通知进行修改，通过对比新旧vdom，得到最小修改，然后只需要修改这些差异就行。
-      
-
+#### Vue的源码解读
+   1. 我们先来看core/instance/index.js
+      + 定义了五个方法
+         1. initMixIn 在vue的原型上添加了_init方法，当new Vue的时候这个方法会被执行
+         2. stateMixin 在这个方法上定义了$data,$props属性，定义了$set,$delete,$watch三个方法。
+         3. eventMixin 在vue的原型上添加了四个方法$on,$once,$off,$emit
+         4. lifeCycleMixin 添加了_update,$forceUpdate,$destory
+         5. renderMixin 添加了_render,$nextTick
+   2. core/index.js文件
+      1. initGlobalApi添加了静态属性和方法，set delete nextTick
+   3. web/runtime/index.js
+      1. 实现了$mount，返回了一个mountComponent方法
+      2. 在vue option混入了两个指令 show model 两个组件transition transition-group
+   4. suntime-with-compiler.js
+      + 重写了$mount
+   5. _init方法里面做了什么
+      + mergeOptions合并两个对象为一个新的对象。
+      + 规范化组件名称，props，inject,指令，生命周期钩子函数可以写成数组形式，钩子函数将会依次调用。
+   + vue的响应式原理
+      1. data的判断，要看data中的key是否会和props或者methods中的key重复，是否是保留字，isReserved是判断是否是以$或者_开头。
+      2. proxy在vm上定义与data数据字段同名的访问器属性，并将这些属性值代理到vm_.data
+      3. observe函数：返回一个Observer实例。
+      4. Observer对象根据数据类型执行相应的响应化操作。对于对象的话，调用defineReactive，对于数组类型的值，继续调用observe处理每一项。
+      5. defineReactive里面定义对象属性的getter/setter getter负责添加依赖，setter负责通知更新。                
     

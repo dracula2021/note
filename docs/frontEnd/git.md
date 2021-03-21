@@ -15,7 +15,7 @@
   + git merge
      1. merge冲突：你的两个分支改了相同的内容，Git 不知道应该以哪个为准。如果在 merge 的时候发生了这种情况，Git 就会把问题交给你来决定。具体地，它会告诉你 merge 失败，以及失败的原因；这时候你只需要手动解决掉冲突并重新add、commit（改动不同文件或同一文件的不同行都不会产生冲突）；或者使用git merge --abort放弃解决冲突，取消merge
   + git rebase <br>
-     ![rebase图片](media/rebase.jpg)
+     ![rebase图片](../media/rebase.jpg)
   + diff相关
       1. git diff --staged可以显示暂存区和上一条提交之间的不同。换句话说，这条指令可以让你看到「如果你立即输入 git commit，你将会提交什么」
       2. git diff可以显示工作目录和暂存区之间的不同。换句话说，这条指令可以让你看到「如果你现在把所有文件都 add，你会向暂存区中增加哪些内容」

@@ -1,9 +1,32 @@
+#### webpack的一些基础知识
+   + webpack默认只知道如何处理js和json模块，其他格式的处理，和处理方式需要loader。
+   + 常见loader的使用和原理：
+      1. file-loader处理静态资源模块，原理是将打包入口中识别出的资源模块，移动到输出目录，并且返回一个地址名称。当我们需要模块，仅仅是从源代码逻到打包目录，就可以使用file-loader来处理。
+      2. url-loader内部使用了file-loader，所以可以处理file-loader所有的事情，但是遇到jpg格式的模块，会把图片转换成base64格式字符串，打包到js里。对小体积的图片比较合适，大图片不合适。
+      3. css-loader 分析css模块之间的关系，合并成一个css
+      4. style-loader 会把css-loader生产的内容，以style挂在到页面的head部分
+   + plugins
+      + plugin可以在webpack运行到某个阶段的时候，帮你做一些事情，类似于生命周期的概念
+      + htmlwebpackPlugin会在打包结束后，生成一个html文件，冰雹打包生成的js模块引入到该html中。
+      + clean-webpack-plugin
+      + mini-css-extract-plugin
+   + sourceMap : 源代码与打包后的代码的映射关系
+      1. 默认是开启的，关闭的话，在配置文件中：devtool:none
+      2. 推荐配置
+         devtool:"cheap-module-eval-source-map",// 开发环境配置
+         devtool:"cheap-module-source-map", // 线上⽣生成配置
+   + webpackDevServer
+      1. devserver把打包后的模块不会放在dist目录下，二十放到内存中，从而提升速度
+      2. 
+     
 + webpack文件监听的方式：
    1. 启动webpack时加上--watch
    2. 配置webpack.config.js的时候加上 watch:true
 + 文件监听的原理：
   轮询判断文件的最后修改时间是否发生变化
-
++ webpack设置mode可以自动触发webpack内置的函数，达到优化的效果。
+   1. 开发阶段开启会有利于热更新的处理，识别哪个模块变化
+   2. 生产阶段的开启会有帮助模块压缩，处理副作用等一些功能。
 + 热更新
    1. webpack-dev-server
    2. wds的优势是不用刷新页面，输出完成之后，文件放到内存中，没有进行磁盘io操作
@@ -47,3 +70,7 @@
      + 在编译阶段，,tree-shaking知道哪些代码没有用到之后，会将其注释标记，然后再uglify阶段将其删除掉。
 + loader的作用，对模块的源代码进行转换，将不同的语言转化为js，或者将内联图片转换为dataurl。
 + plugin的作用 解决loader无法实现的其他事。
++ splitChunkPlugin： webpack4给我们带来了一些变化，引入了人splitChunkPlugin，并淘汰了之前的commonsChunkPlugin。
+   1. 代码分离允许你吧代码拆分到多个文件中，如果使用得当，你的性能会提高很多，因为浏览器能缓存你的代码。
+   2. 由于有了splitChunksPlugin，你可以把应用中的特定部分移至不同文件。如果一个模块不止一个chunk中被使用，那么利用代码分离，该模块就可以在他们之间很好的被共享。
+   3. splitChunks有一个最小空间30kb的设置，当比这个小的模块被引用的时候，不会北大报道单独的分离文件，在真实环境下，这是一件耗时，因为这样不会带来实质性的性能提升，反而会强制浏览器为分离出的文件再发一次额外的请求。

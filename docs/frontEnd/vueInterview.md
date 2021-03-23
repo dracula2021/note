@@ -154,7 +154,26 @@
       + 我们来详细讲解一下patch算法
          + patch将新老vnode节点进行比对（diff算法）,然后根据比较结果进行最小量dom操作，而不是将整个视图根据新的vnode重绘。
          + diff算法
-            1. 通过同层的树节点进行比较
+            1. 通过同层的树节点进行比较而非对树进行逐层搜索遍历的方式，同层级只做三件事：增删改。new Vnode不存在就删，old vnode不存在就增，都存在就比较类型，类型不同直接替换，类型相同执行更新。
+            2. patchVnode: 两个vnode相同执行更新操作，包括：属性更新，文本跟新，子节点更新。
+               + 如果新旧vnode都是静态的，同时他们的key相同，并且新的vnode是clone或者是标记了v-once,那么只需要替换elm以及componentInstance即可
+               + 新老节点都有children子节点，则对子节点进行diff操作，调用updateChildren，这个updateChildren也是diff的核心
+               + 如果老节点没有子节点而新节点存在子节点，先清空老节点Dom的文本内容，然后为当前Dom节点加入子节点
+               + 如果老节点没有子节点而新节点存在子节点，先清空老节点DOM的文本内容，然后为当前DOM节点加入子节点。
+               + 当新节点没有子节点而老节点有子节点的时候，则移除该DOM节点的所有子节点。
+               + 当新老节点都无子节点的时候，只是文本的替换。
+            3. updateChildren vue对updateChildren做了一个特别的优化 在新老两组vnode节点的左右头尾两侧都有一个变量标记，在遍历过程中这几个遍历会向中间靠拢。当newStartIdx > newEndIdx 或者 oldStartIdx > newEndIDx时候结束循环
+               1. 当 oldStartVnode和newStartVnode 或者 oldEndVnode和newEndVnode 满足sameVnode，直接将该VNode节点进行patchVnode即可，不需再遍历就完成了一次循环
+               2. 如果oldStartVnode与newEndVnode满足sameVnode。说明oldStartVnode已经跑到了oldEndVnode后面去了，进行patchVnode的同时还需要将真实DOM节点移动到oldEndVnode的后面。
+               3. 如果oldEndVnode与newStartVnode满足sameVnode，说明oldEndVnode跑到了oldStartVnode的前面，进行patchVnode的同时要将oldEndVnode对应DOM移动到oldStartVnode对应DOM的前面。
+               4. 如果以上情况均不符合，则在old VNode中找与newStartVnode满足sameVnode的vnodeToMove，若存在执行patchVnode，同时将vnodeToMove对应DOM移动到oldStartVnode对应的DOM的前面。
+               5. 当然也有可能newStartVnode在old VNode节点中找不到一致的key，或者是即便key相同却不是sameVnode，这个时候会调用createElm创建一个新的DOM节点。
+               6. 当结束时oldStartIdx > oldEndIdx，这个时候旧的VNode节点已经遍历完了，但是新的节点还没有。说明了新的VNode节点实际上比老的VNode节点多，需要将剩下的VNode对应的DOM插入到真实DOM中，此时调用addVnodes。
+               7. 但是，当结束时newStartIdx > newEndIdx时，说明新的VNode节点已经遍历完了，但是老的节点还有剩余，需要从文档中删 的节点删除
+         + 标记静态子树的好处：
+            1. 每次重新渲染，不需要为静态子树创建新节点
+            2. 虚拟DOM中patch时，可以跳过静态子树
+
 
       
 

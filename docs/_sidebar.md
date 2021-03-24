@@ -2,14 +2,20 @@
   - [原型](frontEnd/prototype.md)
   - [http相关的面试题](frontEnd/http.md)
   - [js相关的面试题](frontEnd/jsInterview.md)
+
 - CSS
   - [css相关的知识点](frontEnd/css.md)
 - Vue
   - [vue相关的面试题](frontEnd/vueInterview.md)
-  - [项目优化相关的bug](frontEnd/项目优化.md)
   - [webpack相关的面试题](frontEnd/webpack.md)
+  - [vue3](frontEnd/vue3.0.md)
 - 前端综合
   - [值得看的文章](frontEnd/article.md)
   - [git相关的面试题](frontEnd/git.md)
   - [echarts相关的面试题](frontEnd/echarts.md)
   - [浏览器相关面试题](frontEnd/browser.md)
+  - [设计模式](frontEnd/设计模式.md)
+  - [项目复盘](frontEnd/项目复盘.md)
+  - [项目优化](frontEnd/项目优化.md)
+  - [移动端](frontEnd/移动端兼容问题.md)
+  - [http](frontEnd/http.md)

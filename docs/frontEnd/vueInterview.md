@@ -174,7 +174,35 @@
             1. 每次重新渲染，不需要为静态子树创建新节点
             2. 虚拟DOM中patch时，可以跳过静态子树
 
++ watch和computed，methods的区别
+   + watch
+      1. 不支持缓存
+      2. 支持异步
+      3. 当属性变化，需要执行对应的操作，一对多。
+   + computed
+      1. 支持缓存，默认缓存，计算属性是基于他们的响应式进行缓存的。
+      2. 不支持异步
+      3. 多对一的操作
+   + methods
+      1. methods是非响应式的。
+      2. methods里面的函数每次调用时都要执行
++ 双向数据绑定的原理
+   1. observer对数据对象进行遍历，使用object.definedProperty方法来劫持各个属性的setter,getter在数据变动的时候发布消息给订阅者，触发相应的监听回调。
+   2. compile解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，将指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变化，收到通知，更新视图。
+   3. watcher订阅者是Observer和compile之间的桥梁
+      + 在自身实力化时往属性订阅器里面添加自己
+      + 自身必须有一个update方法
+      + 待属性变动的时候，调用自身的update方法，并触发compile中绑定的会带哦
+   4. mvvm作为数据绑定的入口，整合observer,compile和watcher三者，通过observer来监听自己的model数据变化，通过compile来编辑模板指令，最终利用watcher大气observer和compile之间的桥梁。 
 
-      
++ Object.defineProperty的缺点
+   1. 不能监听数组，因为数组没有getter setter
+   2. 因为数组长度不确定，如果太长性能负担太大只能监听属性，而不是整个对象。
++ proxy的好处：
+   1. 可以监听数组
+   2. 监听整个对象不是属性
++ keep-alive的原理
+   1. 判断组件name，不在include或者在exclude中，直接返回vnode，说明组件不被缓存
+   2. 
 
     

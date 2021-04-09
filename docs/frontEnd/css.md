@@ -1,4 +1,31 @@
 #### css相关的知识
+###### 块级元素和行内元素区别
+1. 块级元素会独占一行，其宽度会自动填满其父元素宽度，行内元素不会独占一行，相邻的行内元素会排在同一行里，直到一行排不下，才会换行，其宽度随元素的内容而变化。
+2. 块级元素可以设置width,height属性，行内元素设置width,height无效
+3. 块级元素可以设置margin和padding, 行内元素的水平方向产生边距效果，竖直方向都不会产生边距效果
++ css设置水平垂直居中
+   1. 行内元素
+      + 水平 text-align:center
+      + 垂直 height 和line-height相等
+   2. 块级元素
+      + 水平 margin auto
+      + 垂直也
+###### 前端跨页面通信
++ 我们希望能够在这些独立的tab页面之间同步页面的数据，信息或状态
++ 同源页面间的跨页面通信
+   1. broadCast channel
+      + 当所有的页面都监听统一频道的消息时，其中一个页面通过它发送的消息就会被其他所有的页面收到
+      + ie safari都不兼容
+   ```
+     const bc = new BroadcastChannel('hello');
+     bc.onmessage = function(e){};
+     bc.postMessage('');//可以发送任何对象，而不只是字符串
+   ```
+   + service workerworker
+   + localstorage
+      + 当localstorage变化时，会触发storage事件，利用这个特性，我们可以在发送消息时，把消息写入到storage中，然后再各个页面内，通过监听storage事件即可收到通知。
+   + shared worker 
+      + shared worker支持post支持get和post两种消息，post，shared worker收到后会把消息保存起来，get 收到消息后会通过postMessage来传给注册他的页面
 - [css面试相关](https://juejin.cn/post/6876625311988088840)
 + 学习笔记
    1. css盒模型
@@ -43,7 +70,7 @@
             + block container 建立BFC或者IFC
             + flex container 建立FFC
             + grid container 建立GFC
-      + BFC 块级格式化上下文，是一个独立的渲染区域，只有块级盒子参与。
+      + BFC 块级格式化上下文，是一个独立的渲染区域，并且有一套渲染规则，只有块级盒子参与。
          + BFC渲染规则： 
             1. 内部的盒子会在垂直方向，一个接一个地放置
             2. 盒子垂直方向的距离由margin决定，属于同一个BFC的两个相邻盒子的margin会发生重叠
@@ -51,6 +78,12 @@
             4. bfc区域不会与float盒子重叠
             5. bfc是页面的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之如此
             6. 计算bfc高度时，浮动元素也参与计算
+         + 触发BFC
+            1. body根元素
+            2. 浮动元素 float除none以外的值
+            3. 绝对定位元素 absolute fixed
+            4. display为inline-block table-cells flex
+            5. overflow为visible以外的值
          + BFC的应用
             1. 自适应的两栏布局
                + 原理：BFC区域不会和浮动区域重叠，所以可以把侧边栏固定宽度且左浮动，而右侧内容触发bfc，使得它的宽度自适应行剩余宽度。

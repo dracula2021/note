@@ -2,16 +2,21 @@
   - [原型](frontEnd/prototype.md)
   - [http相关的面试题](frontEnd/http.md)
   - [js相关的面试题](frontEnd/jsInterview.md)
-
+  - [js深入系列](frontEnd/js深入系列.md)
+  - [JS专题系列](frontEnd/JS专题系列.md)
 - CSS
   - [css相关的知识点](frontEnd/css.md)
 - Vue
   - [vue相关的面试题](frontEnd/vueInterview.md)
   - [webpack相关的面试题](frontEnd/webpack.md)
   - [vue3](frontEnd/vue3.0.md)
+  - [react](frontEnd/react.md)
 - 前端综合
   - [值得看的文章](frontEnd/article.md)
   - [git相关的面试题](frontEnd/git.md)
+  - [模块化相关](frontEnd/模块化相关.md)
+  - [面试题](frontEnd/面试题.md)
+  - [浏览器工作原理与实践](frontEnd/浏览器工作原理与实践.md)
   - [echarts相关的面试题](frontEnd/echarts.md)
   - [浏览器相关面试题](frontEnd/browser.md)
   - [设计模式](frontEnd/设计模式.md)
@@ -19,3 +24,5 @@
   - [项目优化](frontEnd/项目优化.md)
   - [移动端](frontEnd/移动端兼容问题.md)
   - [http](frontEnd/http.md)
+  - [cdn](frontEnd/cdn.md)
+  - [Es6系列](frontEnd/Es6系列.md)

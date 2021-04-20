@@ -204,5 +204,46 @@
 + keep-alive的原理
    1. 判断组件name，不在include或者在exclude中，直接返回vnode，说明组件不被缓存
    2. 
++ vue和react的区别
+   1. react是函数式思想，状态和逻辑通过参数传入，是单向数据流。vue是响应式的，也就是基于数据是可变的，通过对每一个属性建立watcher来监听，当属性变化的时候，响应式的更新对应的虚拟dom
+   2. react的思想是all in js 通过js来生成html 所以设计了jsx  vue是把html css js组合到一起，用各自的处理方式，vue有单文件组件，可以把html css js写到一个文件中
+   3. react可以通过高阶组件来扩展，而vue需要mixins来扩展
+###### vue相关的面试题
+1. vue响应式原理
+   + 而在Vue这种MVVM框架中，最重要的核心就是实现数据层和视图层的连接，通过数据驱动应用，数据变化，视图更新。Vue中的方案是数据劫持+发布订阅模式。
+   + 如果是对象则采用Object.defineProperty()的方式定义数据拦截:
+   + 如果是数组，则覆盖数组的7个变更方法实现变更通知:
+2. 通过查看源码 我们可以看到v-for的优先级比v-if高
+3. vue中的key的作用
+   sameVnode里面判断了key 标签名 注释 data是否相等
+4. 双向绑定原理
+   + vue中的双向绑定是一个指令v-model 默认情况下相当于:value和@input
+   + 自定义组件的话要使用它需要在组件内绑定的props value  可以在组件里定义model属性来自定义绑定的属性名和事件名称。
+5. nextTick原理
+   + vue在更新dom的时候是异步执行的，只要侦听到数据变化，vue将开启一个队列，并缓存在同一事件循环中，
+6. 组件间通信
++ props传值 $on $emit
++ ref $parent $children $root
++ event bus
++ $attrs $listeners
+   + $attrs包含了父作用域没被props声明绑定的数据
+   + $listeners 包含了父作用域v-on监听的时间
++ provide inject
+###### 声明周期
+1. beforeCreate created
+   + beforeCreate是在初始化生命周期 事件 渲染函数之后的生命周期
+   + created之前调用了initInjection initsate initProvide这时候初始化了data等，这个时候可以访问data
+2. beforeMount mounted
+###### keep-alive的原理
++ 先获取到第一个子组件，获取该组件的名称 通过include和exclude属性进行匹配 匹配不成功则不进行任何操作直接返回vnode
++ 匹配到了开始缓存 如果cache中存在 直接使用缓存，更新key的位置。
++ 如果cache中没找到，添加到cache中，并且判断当前缓存的个数是否超过了max指定的个数，如果超过，就要把keyss中的最后一个移除
+###### patch算法
++ 首先判断是否有新的vnode 没有的话就销毁就得vnode
++ 然后判断有没有旧的vnode 没有就代表新增
++ 判断是否是组件 如果是组件并且用samevnode判断新旧节点是否是相同的节点 是的话进行patchVnode 新旧节点的diff算法
+
+
+
 
     

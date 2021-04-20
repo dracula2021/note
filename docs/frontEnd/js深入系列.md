@@ -293,11 +293,12 @@
       + 返回number的
 ###### cookie相关的补充
   + experies
-     + 当experies属性缺损时，表示是会话cookie，当为会话cookie的时候，值保存在内存中，关闭浏览器时失效。
+     + 当expires属性缺损时，表示是会话cookie，当为会话cookie的时候，值保存在内存中，关闭浏览器时失效。
      + max-age 可以为正数 负数 0
         1. 正数持久化在浏览器中
         2. 0代表会删除这个cookie
         3. 负数代表cookie只是一个会话性的cookie
+     + 当expires和cookie同时出现时，浏览器会优先采用max-age计算失效期
      + domain 
      + path  domain和path标识共同定义了cookie的作用域
      + secure属性 标记为secure的cookie只应通过被https协议加密过的请求发送给服务器。

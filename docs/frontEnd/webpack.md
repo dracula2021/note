@@ -82,4 +82,24 @@
    3. 能力扩展。webpack的plugin机制，我们在实现模块化打包和编译兼容的基础上，可以进一步实现按需加载，代码压缩等一系列的功能。
 + 模块化打包的原理
 
-   
+###### webpack的搭建（项目实战）
+![链接](https://blog.csdn.net/weixin_41900457/article/details/106792154?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-5&spm=1001.2101.3001.4242)
+1. npm init
+2. 安装 webpack webpack-cli webpack-dev-server
+3. 在根目录构建 webpack.config.js 文件用于配置webpack
+4. 出现的问题和解决的方法
+   1. 重新执行打包，会发现之前的打包文件还存在，这样就会导致我们的dist文件夹会包含很多之前打包的跟当前代码无关的文件，这样其实对我们的项目并不友好
+      + clean-webpack-plugin 插件可以帮助我们实现这个需求
+   2. jsx es6的语法，在低版本的浏览器不兼容，我们需要配置babbel来实现低版本浏览器的兼容
+      + babel-loader  @babel/preset-env @babel/preset-polyfill
+      (Babel默认只转换新的JavaScript语法，但是不转换新的API，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，以及一些定义在全局对象上的方法（比如Object.assign ）都不会转码。而@babel/preset-polyfill可以转码。) 
+   3.  html-webpack-plugin
+   4.  less-loader style-loader postcss-loader css-loader autoprefixer
++ 生产环境的配置与开发环境的配置有很多的不同点，所以我们需要分别建对应的配置文件，在根目录下分别创建 webpack.prod.js（生产配置） 与webpack.dev.js（开发配置）
++ 配合webpack的打包可以让我们实现实时更新，实时显示，不需要手动触发npm run dev命令来进行刷新 webpack-dev-server --open --config webpack.dev.js
++ 然后在plugin中添加 new webpack.HotModuleReplacementPlugin()即可解决部分依赖刷新不及时的问题
++ 我们就需要进行代码的压缩混淆，减少代码体积，先对js进行代码压缩，这里我们需要引用插件 terser-webpack-plugin
++ 我们可以观察到之前打包出来的文件其实是没有css文件的，因为webpack把所有的文件都打到一个文件里面了，所以我们没办法看到它，这其实对最后的生成的项目并不友好，所以我们先要在打包中将css抽离出来，这里我们就需要一个新的包 mini-css-extract-plugin
++ webpack-merge
+
+
